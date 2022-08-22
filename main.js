@@ -159,12 +159,12 @@ function calcTo200(selectionString, statsTo100) {
                 // calculate stats
                 function returnStats(att) {
                   return (
-                    fighter * fighterStats[att] +
-                    strider * striderStats[att] +
-                    mage * mageStats[att] +
-                    warrior * warriorStats[att] +
-                    ranger * rangerStats[att] +
-                    sorcerer * sorcererStats[att] +
+                    fighter * fighterStats200[att] +
+                    strider * striderStats200[att] +
+                    mage * mageStats200[att] +
+                    warrior * warriorStats200[att] +
+                    ranger * rangerStats200[att] +
+                    sorcerer * sorcererStats200[att] +
                     statsTo100[att]
                   );
                 }
