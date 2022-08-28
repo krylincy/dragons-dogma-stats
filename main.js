@@ -136,6 +136,7 @@ const sorcererStats200 = {
 function calcTo200(selectionString, statsTo100) {
   const minLevel = 0;
   const maxLevel = 100;
+  const step = 25;
 
   function returnTempStats(attr, fighter = 0, strider = 0, mage = 0, warrior = 0, ranger = 0) {
     let sumUpStat = 0;
@@ -159,8 +160,8 @@ function calcTo200(selectionString, statsTo100) {
     return sumUpStat + statsTo100[attr];
   }
 
-  console.log(`--> sub-loop ${selectionString}`);
-  for (let fighter = minLevel; fighter < maxLevel; fighter++) {
+  // console.log(`--> sub-loop ${selectionString}`);
+  for (let fighter = minLevel; fighter < maxLevel; fighter += step) {
     if (
       returnTempStats('hp', fighter) > 4000 ||
       returnTempStats('st', fighter) > 4000 ||
@@ -171,7 +172,7 @@ function calcTo200(selectionString, statsTo100) {
     ) {
       break;
     }
-    for (let strider = minLevel; strider < maxLevel; strider++) {
+    for (let strider = minLevel; strider < maxLevel; strider += step) {
       if (
         fighter + strider > maxLevel ||
         returnTempStats('hp', fighter, strider) > 4000 ||
@@ -183,7 +184,7 @@ function calcTo200(selectionString, statsTo100) {
       ) {
         break;
       }
-      for (let mage = minLevel; mage < maxLevel; mage++) {
+      for (let mage = minLevel; mage < maxLevel; mage += step) {
         if (
           fighter + strider + mage > maxLevel ||
           returnTempStats('hp', fighter, strider, mage) > 4000 ||
@@ -195,7 +196,7 @@ function calcTo200(selectionString, statsTo100) {
         ) {
           break;
         }
-        for (let warrior = minLevel; warrior < maxLevel; warrior++) {
+        for (let warrior = minLevel; warrior < maxLevel; warrior += step) {
           if (
             fighter + strider + mage + warrior > maxLevel ||
             returnTempStats('hp', fighter, strider, mage, warrior) > 4000 ||
@@ -207,7 +208,7 @@ function calcTo200(selectionString, statsTo100) {
           ) {
             break;
           }
-          for (let ranger = minLevel; ranger < maxLevel; ranger++) {
+          for (let ranger = minLevel; ranger < maxLevel; ranger += step) {
             if (
               fighter + strider + mage + warrior + ranger > maxLevel ||
               returnTempStats('hp', fighter, strider, mage, warrior, ranger) > 4000 ||
@@ -219,7 +220,7 @@ function calcTo200(selectionString, statsTo100) {
             ) {
               break;
             }
-            for (let sorcerer = minLevel; sorcerer < maxLevel; sorcerer++) {
+            for (let sorcerer = minLevel; sorcerer < maxLevel; sorcerer += step) {
               if (fighter + strider + mage + warrior + ranger + sorcerer === maxLevel) {
                 // calculate stats
                 function returnStats(attr) {
@@ -276,25 +277,27 @@ function calcTo200(selectionString, statsTo100) {
 function calcTo100() {
   const minLevel = 0;
   const maxLevel = 90;
-  for (let fighter = minLevel; fighter < maxLevel; fighter++) {
+  const step = 1;
+
+  for (let fighter = minLevel; fighter < maxLevel; fighter += step) {
     console.log(`--> loop ${fighter} / ${maxLevel}`);
-    for (let strider = minLevel; strider < maxLevel; strider++) {
+    for (let strider = minLevel; strider < maxLevel; strider += step) {
       if (fighter + strider > maxLevel) {
         break;
       }
-      for (let mage = minLevel; mage < maxLevel; mage++) {
+      for (let mage = minLevel; mage < maxLevel; mage += step) {
         if (fighter + strider + mage > maxLevel) {
           break;
         }
-        for (let warrior = minLevel; warrior < maxLevel; warrior++) {
+        for (let warrior = minLevel; warrior < maxLevel; warrior += step) {
           if (fighter + strider + mage + warrior > maxLevel) {
             break;
           }
-          for (let ranger = minLevel; ranger < maxLevel; ranger++) {
+          for (let ranger = minLevel; ranger < maxLevel; ranger += step) {
             if (fighter + strider + mage + warrior + ranger > maxLevel) {
               break;
             }
-            for (let sorcerer = minLevel; sorcerer < maxLevel; sorcerer++) {
+            for (let sorcerer = minLevel; sorcerer < maxLevel; sorcerer += step) {
               if (fighter + strider + mage + warrior + ranger + sorcerer === maxLevel) {
                 // calculate stats
                 function returnStats(attr, initPos) {
