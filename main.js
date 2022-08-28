@@ -339,28 +339,114 @@ function calcTo100() {
                   },
                 ];
 
+                let level200 = [
+                  {
+                    name: 'fighter',
+                    hp: 1500,
+                    st: 500,
+                    attack: 100,
+                    defense: 300,
+                    mattack: 0,
+                    mdefense: 0,
+                  },
+                  {
+                    name: 'strider',
+                    hp: 500,
+                    st: 1500,
+                    attack: 100,
+                    defense: 100,
+                    mattack: 100,
+                    mdefense: 100,
+                  },
+                  {
+                    name: 'mage',
+                    hp: 1000,
+                    st: 1000,
+                    attack: 0,
+                    defense: 0,
+                    mattack: 200,
+                    mdefense: 200,
+                  },
+                  {
+                    name: 'warrior',
+                    hp: 500,
+                    st: 1500,
+                    attack: 200,
+                    defense: 200,
+                    mattack: 0,
+                    mdefense: 0,
+                  },
+                  {
+                    name: 'ranger',
+                    hp: 500,
+                    st: 1500,
+                    attack: 200,
+                    defense: 100,
+                    mattack: 0,
+                    mdefense: 100,
+                  },
+                  {
+                    name: 'sorcerer',
+                    hp: 1000,
+                    st: 1000,
+                    attack: 0,
+                    defense: 0,
+                    mattack: 300,
+                    mdefense: 100,
+                  },
+                  {
+                    name: 'mage/sorcerer',
+                    hp: 1000,
+                    st: 1000,
+                    attack: 0,
+                    defense: 0,
+                    mattack: 250,
+                    mdefense: 150,
+                  },
+                  {
+                    name: 'fighter/ranger',
+                    hp: 1000,
+                    st: 1000,
+                    attack: 150,
+                    defense: 200,
+                    mattack: 0,
+                    mdefense: 20,
+                  },
+                ];
+
                 stats.forEach((resultStats) => {
-                  if (
-                    resultStats.hp < 4000 &&
-                    resultStats.st < 4000 &&
-                    resultStats.hp >= 2500 &&
-                    resultStats.st >= 2500 &&
-                    resultStats.attack >= 300 &&
-                    resultStats.attack < 500 &&
-                    resultStats.mattack >= 300 &&
-                    resultStats.mattack < 500 &&
-                    resultStats.defense >= 200 &&
-                    resultStats.mdefense >= 200 &&
-                    Math.abs(resultStats.defense - resultStats.mdefense) < 350 &&
-                    Math.abs(resultStats.attack - resultStats.mattack) < 400
-                  ) {
-                    calcTo200(
-                      `Start Class: ${
-                        resultStats.init + 1
-                      } fighter-100: ${fighter}, strider-100: ${strider}, mage-100: ${mage}, warrior-100: ${warrior}, ranger-100: ${ranger}, sorcerer-100: ${sorcerer}`,
-                      resultStats
-                    );
-                  }
+                  level200.forEach((finalClass) => {
+                    const buildHp = resultStats.hp + finalClass.hp;
+                    const buildST = resultStats.st + finalClass.st;
+                    const buildAttack = resultStats.attack + finalClass.attack;
+                    const buildDefense = resultStats.defense + finalClass.defense;
+                    const buildMattack = resultStats.mattack + finalClass.mattack;
+                    const buildMdefense = resultStats.mdefense + finalClass.mdefense;
+
+                    const modulo = 10;
+                    if (
+                      buildHp === 4000 &&
+                      buildST === 4000 &&
+                      // buildAttack % modulo === 0 &&
+                      // buildDefense % modulo === 0 &&
+                      // buildMattack % modulo === 0 &&
+                      // buildMdefense % modulo === 0
+                      Math.abs(buildDefense - buildMdefense) < 50 &&
+                      Math.abs(buildAttack - buildMattack) < 100
+                    ) {
+                      console.log('----------');
+                      console.log(
+                        `Start Class: ${
+                          resultStats.init + 1
+                        } fighter: ${fighter}, strider: ${strider}, mage: ${mage}, warrior: ${warrior}, ranger: ${ranger}, sorcerer: ${sorcerer}`
+                      );
+                      console.log(`To 200 use: ${finalClass.name}`);
+                      console.log(
+                        `hp: ${buildHp}, st: ${buildST}, att: ${buildAttack}, def: ${buildDefense}, matt: ${buildMattack}, mdef: ${buildMdefense}`
+                      );
+                      console.log('----------');
+                    }
+                  });
                 });
               }
               if (fighter + strider + mage + warrior + ranger + sorcerer > maxLevel) {
