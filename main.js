@@ -137,35 +137,73 @@ function calcTo200(selectionString, statsTo100) {
   const minLevel = 0;
   const maxLevel = 100;
 
+  function returnTempStats(attr, fighter = 0, strider = 0, mage = 0, warrior = 0, ranger = 0) {
+    let sumUpStat = 0;
+
+    if (fighter) {
+      sumUpStat += fighter * fighterStats200[attr];
+    }
+    if (strider) {
+      sumUpStat += strider * striderStats200[attr];
+    }
+    if (mage) {
+      sumUpStat += mage * mageStats200[attr];
+    }
+    if (warrior) {
+      sumUpStat += warrior * warriorStats200[attr];
+    }
+    if (ranger) {
+      sumUpStat += ranger * rangerStats200[attr];
+    }
+
+    return sumUpStat + statsTo100[attr];
+  }
+
   for (let fighter = minLevel; fighter < maxLevel; fighter++) {
     for (let strider = minLevel; strider < maxLevel; strider++) {
-      if (fighter + strider > maxLevel) {
+      if (
+        fighter + strider > maxLevel ||
+        returnTempStats('hp', fighter, strider) > 4000 ||
+        returnTempStats('st', fighter, strider) > 4000
+      ) {
         break;
       }
       for (let mage = minLevel; mage < maxLevel; mage++) {
-        if (fighter + strider + mage > maxLevel) {
+        if (
+          fighter + strider + mage > maxLevel ||
+          returnTempStats('hp', fighter, strider, mage) > 4000 ||
+          returnTempStats('st', fighter, strider, mage) > 4000
+        ) {
           break;
         }
         for (let warrior = minLevel; warrior < maxLevel; warrior++) {
-          if (fighter + strider + mage + warrior > maxLevel) {
+          if (
+            fighter + strider + mage + warrior > maxLevel ||
+            returnTempStats('hp', fighter, strider, mage, warrior) > 4000 ||
+            returnTempStats('st', fighter, strider, mage, warrior) > 4000
+          ) {
             break;
           }
           for (let ranger = minLevel; ranger < maxLevel; ranger++) {
-            if (fighter + strider + mage + warrior + ranger > maxLevel) {
+            if (
+              fighter + strider + mage + warrior + ranger > maxLevel ||
+              returnTempStats('hp', fighter, strider, mage, warrior, ranger) > 4000 ||
+              returnTempStats('st', fighter, strider, mage, warrior, ranger) > 4000
+            ) {
               break;
             }
             for (let sorcerer = minLevel; sorcerer < maxLevel; sorcerer++) {
               if (fighter + strider + mage + warrior + ranger + sorcerer === maxLevel) {
                 // calculate stats
-                function returnStats(att) {
+                function returnStats(attr) {
                   return (
-                    fighter * fighterStats200[att] +
-                    strider * striderStats200[att] +
-                    mage * mageStats200[att] +
-                    warrior * warriorStats200[att] +
-                    ranger * rangerStats200[att] +
-                    sorcerer * sorcererStats200[att] +
-                    statsTo100[att]
+                    fighter * fighterStats200[attr] +
+                    strider * striderStats200[attr] +
+                    mage * mageStats200[attr] +
+                    warrior * warriorStats200[attr] +
+                    ranger * rangerStats200[attr] +
+                    sorcerer * sorcererStats200[attr] +
+                    statsTo100[attr]
                   );
                 }
 
@@ -232,15 +270,15 @@ function calcTo100() {
             for (let sorcerer = minLevel; sorcerer < maxLevel; sorcerer++) {
               if (fighter + strider + mage + warrior + ranger + sorcerer === maxLevel) {
                 // calculate stats
-                function returnStats(att, initPos) {
+                function returnStats(attr, initPos) {
                   return (
-                    fighter * fighterStats[att] +
-                    strider * striderStats[att] +
-                    mage * mageStats[att] +
-                    warrior * warriorStats[att] +
-                    ranger * rangerStats[att] +
-                    sorcerer * sorcererStats[att] +
-                    init[initPos][att]
+                    fighter * fighterStats[attr] +
+                    strider * striderStats[attr] +
+                    mage * mageStats[attr] +
+                    warrior * warriorStats[attr] +
+                    ranger * rangerStats[attr] +
+                    sorcerer * sorcererStats[attr] +
+                    init[initPos][attr]
                   );
                 }
 
@@ -275,13 +313,25 @@ function calcTo100() {
                 ];
 
                 stats.forEach((resultStats) => {
-                  fighter, strider, mage, warrior, ranger, sorcerer;
-                  calcTo200(
-                    `Start Class: ${
-                      resultStats.init + 1
-                    } fighter-100: ${fighter}, strider-100: ${strider}, mage-100: ${mage}, warrior-100: ${warrior}, ranger-100: ${ranger}, sorcerer-100: ${sorcerer}`,
-                    resultStats
-                  );
+                  if (
+                    resultStats.hp < 4000 &&
+                    resultStats.st < 4000 &&
+                    resultStats.hp >= 2000 &&
+                    resultStats.st >= 2000 &&
+                    resultStats.attack >= 200 &&
+                    resultStats.attack < 500 &&
+                    resultStats.mattack >= 300 &&
+                    resultStats.mattack < 500 &&
+                    resultStats.defense >= 200 &&
+                    resultStats.mdefense >= 200
+                  ) {
+                    calcTo200(
+                      `Start Class: ${
+                        resultStats.init + 1
+                      } fighter-100: ${fighter}, strider-100: ${strider}, mage-100: ${mage}, warrior-100: ${warrior}, ranger-100: ${ranger}, sorcerer-100: ${sorcerer}`,
+                      resultStats
+                    );
+                  }
                 });
               }
               if (fighter + strider + mage + warrior + ranger + sorcerer > maxLevel) {
