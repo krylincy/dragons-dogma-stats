@@ -412,6 +412,15 @@ function calcTo100() {
                     mattack: 0,
                     mdefense: 20,
                   },
+                  {
+                    name: 'strider/warrior',
+                    hp: 500,
+                    st: 1500,
+                    attack: 150,
+                    defense: 150,
+                    mattack: 50,
+                    mdefense: 50,
+                  },
                 ];
 
                 stats.forEach((resultStats) => {
@@ -423,15 +432,21 @@ function calcTo100() {
                     const buildMattack = resultStats.mattack + finalClass.mattack;
                     const buildMdefense = resultStats.mdefense + finalClass.mdefense;
 
-                    const modulo = 10;
+                    const modulo = 5;
                     if (
-                      buildHp === 4000 &&
-                      buildST === 4000 &&
+                      buildHp > 3500 &&
+                      buildST > 3500 &&
+                      // buildDefense > 300 &&
+                      // buildMdefense > 300 &&
+                      buildAttack > 500 &&
+                      buildMattack > 500 &&
+                      buildHp % 100 === 0 &&
+                      buildST % 100 === 0 &&
                       // buildAttack % modulo === 0 &&
                       // buildDefense % modulo === 0 &&
                       // buildMattack % modulo === 0 &&
-                      // buildMdefense % modulo === 0
-                      Math.abs(buildDefense - buildMdefense) < 50 &&
+                      // buildMdefense % modulo === 0 &&
+                      Math.abs(buildDefense - buildMdefense) < 100 &&
                       Math.abs(buildAttack - buildMattack) < 100
                     ) {
                       console.log('----------');
