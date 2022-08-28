@@ -159,12 +159,27 @@ function calcTo200(selectionString, statsTo100) {
     return sumUpStat + statsTo100[attr];
   }
 
+  console.log(`--> sub-loop ${selectionString}`);
   for (let fighter = minLevel; fighter < maxLevel; fighter++) {
+    if (
+      returnTempStats('hp', fighter) > 4000 ||
+      returnTempStats('st', fighter) > 4000 ||
+      returnTempStats('attack', fighter) > 620 ||
+      returnTempStats('mattack', fighter) > 620 ||
+      returnTempStats('defense', fighter) > 380 ||
+      returnTempStats('mdefense', fighter) > 380
+    ) {
+      break;
+    }
     for (let strider = minLevel; strider < maxLevel; strider++) {
       if (
         fighter + strider > maxLevel ||
         returnTempStats('hp', fighter, strider) > 4000 ||
-        returnTempStats('st', fighter, strider) > 4000
+        returnTempStats('st', fighter, strider) > 4000 ||
+        returnTempStats('attack', fighter, strider) > 620 ||
+        returnTempStats('mattack', fighter, strider) > 620 ||
+        returnTempStats('defense', fighter, strider) > 380 ||
+        returnTempStats('mdefense', fighter, strider) > 380
       ) {
         break;
       }
@@ -172,7 +187,11 @@ function calcTo200(selectionString, statsTo100) {
         if (
           fighter + strider + mage > maxLevel ||
           returnTempStats('hp', fighter, strider, mage) > 4000 ||
-          returnTempStats('st', fighter, strider, mage) > 4000
+          returnTempStats('st', fighter, strider, mage) > 4000 ||
+          returnTempStats('attack', fighter, strider, mage) > 620 ||
+          returnTempStats('mattack', fighter, strider, mage) > 620 ||
+          returnTempStats('defense', fighter, strider, mage) > 380 ||
+          returnTempStats('mdefense', fighter, strider, mage) > 380
         ) {
           break;
         }
@@ -180,7 +199,11 @@ function calcTo200(selectionString, statsTo100) {
           if (
             fighter + strider + mage + warrior > maxLevel ||
             returnTempStats('hp', fighter, strider, mage, warrior) > 4000 ||
-            returnTempStats('st', fighter, strider, mage, warrior) > 4000
+            returnTempStats('st', fighter, strider, mage, warrior) > 4000 ||
+            returnTempStats('attack', fighter, strider, mage, warrior) > 620 ||
+            returnTempStats('mattack', fighter, strider, mage, warrior) > 620 ||
+            returnTempStats('defense', fighter, strider, mage, warrior) > 380 ||
+            returnTempStats('mdefense', fighter, strider, mage, warrior) > 380
           ) {
             break;
           }
@@ -188,7 +211,11 @@ function calcTo200(selectionString, statsTo100) {
             if (
               fighter + strider + mage + warrior + ranger > maxLevel ||
               returnTempStats('hp', fighter, strider, mage, warrior, ranger) > 4000 ||
-              returnTempStats('st', fighter, strider, mage, warrior, ranger) > 4000
+              returnTempStats('st', fighter, strider, mage, warrior, ranger) > 4000 ||
+              returnTempStats('attack', fighter, strider, mage, warrior, ranger) > 620 ||
+              returnTempStats('mattack', fighter, strider, mage, warrior, ranger) > 620 ||
+              returnTempStats('defense', fighter, strider, mage, warrior, ranger) > 380 ||
+              returnTempStats('mdefense', fighter, strider, mage, warrior, ranger) > 380
             ) {
               break;
             }
@@ -316,14 +343,16 @@ function calcTo100() {
                   if (
                     resultStats.hp < 4000 &&
                     resultStats.st < 4000 &&
-                    resultStats.hp >= 2000 &&
-                    resultStats.st >= 2000 &&
-                    resultStats.attack >= 200 &&
+                    resultStats.hp >= 2500 &&
+                    resultStats.st >= 2500 &&
+                    resultStats.attack >= 300 &&
                     resultStats.attack < 500 &&
                     resultStats.mattack >= 300 &&
                     resultStats.mattack < 500 &&
                     resultStats.defense >= 200 &&
-                    resultStats.mdefense >= 200
+                    resultStats.mdefense >= 200 &&
+                    Math.abs(resultStats.defense - resultStats.mdefense) < 350 &&
+                    Math.abs(resultStats.attack - resultStats.mattack) < 400
                   ) {
                     calcTo200(
                       `Start Class: ${
